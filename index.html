@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Joguinho | Sonic</title>
+</head>
+<body>
+
+    <audio id="xaxa" autoplay loop>
+        <source src="./essenciais/Sonic The Hedgehog OST - Green Hill Zone.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="xoxo" autoplay>
+        <source src="./essenciais/Sonic 1 Music Game Over - sonicKAI.mp3">
+    </audio>
+
+    <main class="container">
+
+        <img src="./essenciais/motobug.png" class="crabmeat">
+        <img src="./essenciais/sonic_parado.gif" class="sonic">
+
+        <button class="butao start" onclick="comecarjogo()"> Começar jogo!</button>
+
+        <div style="display: none;" class="item gameover"> Game over! </div>
+        <button style="display: none;" class="item butao restart" onclick="comecarjogo()"> Tentar novamente</button>
+
+    </main>
+
+    <script src="script.js">
+    </script>
+
+</body>
+</html>
