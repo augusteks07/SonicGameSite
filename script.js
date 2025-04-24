@@ -8,6 +8,8 @@
         let restart = document.querySelector(".restart")
         let greenhillsong = document.getElementById("xaxa")
         let ggsong = document.getElementById("xoxo")
+        let maxscore = 0
+        let score = 0
 
         //começar jogo!
         function comecarjogo(){
@@ -16,6 +18,7 @@
             gameovertitle.style.display = "none"
             gameover = false
             gameon = true
+            score = 0 
 
             ggsong.currentTime = 0
             ggsong.pause()
@@ -51,11 +54,18 @@
 
                 setTimeout(() => {
                     if(gameover == false){
+
+                        score = score + 1
+                        if(score >= maxscore){
+                            maxscore = score
+                        }
+
                         sonic.classList.remove("jump")
                         sonic.style.width = "70px"
                         sonic.src = "./essenciais/sonic-running.gif"
+                        document.getElementById("score").textContent = ("max score: " + maxscore + " | score: " + score)
                     }
-                },1200)
+                },1100)
             }
         }
     
