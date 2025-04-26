@@ -63,7 +63,7 @@
                         sonic.classList.remove("jump")
                         sonic.style.width = "70px"
                         sonic.src = "./essenciais/sonic-running.gif"
-                        document.getElementById("score").textContent = ("max score: " + maxscore + " | score: " + score)
+                        document.getElementById("score").textContent = ("max jumps: " + maxscore + " | jumps: " + score)
                     }
                 },1100)
             }
