@@ -51,6 +51,26 @@ p {
     flex-direction: column;
 }
 
+.abelha {
+    position: absolute;
+    width: 70px;
+    height: 55px;
+    bottom: 90px;
+    left: 100%;
+    animation: bee 2s linear infinite;
+}
+
+.projetil {
+    width: 10px;
+    height: 10px;
+    background-color: #ffcc00;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px;
+    position: absolute;
+    bottom: 84px;
+    left: 80%;
+}
+
 .item {
     margin-top: 50px;
 }
@@ -156,6 +176,29 @@ p {
 
     to {
         left: -73px;
+    }
+}
+
+@keyframes bee {
+    0% {
+        left: 100%;
+        transform: rotatey(0);
+    }
+    30% {
+        left: 80%;
+        transform: rotatey(0);
+    }
+    50% {
+        left: 80%;
+        transform: rotatey(0);
+    }
+    60% {
+        left: 80%;
+        transform: rotatey(180deg);
+    }
+    100% {
+        left: 120%;
+        transform: rotatey(180deg);
     }
 }
 
