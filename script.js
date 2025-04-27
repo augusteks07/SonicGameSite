@@ -11,11 +11,6 @@
         let maxscore = 0
         let score = 0
 
-        //função para aleatoriedade
-        function random(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
         //começar jogo!
         function comecarjogo(){
 
@@ -44,18 +39,8 @@
 
             start.style.transform = "translatey(-150px)"
 
-            function animarElemento() {
-                if(gameon == true){
-                    crabmeat.classList.add('walk');
-                    setTimeout(() => {
-                        crabmeat.classList.remove('walk');
-                        let proximodelay = random(0, 5000)
-                        setTimeout(animarElemento, proximodelay);
-                    }, 2000); // tempo da animação
-                }     
-            }
-            // Inicia a primeira animação
-            animarElemento();
+            crabmeat.classList.add("walk")
+            
         }
 
         // função pulo
