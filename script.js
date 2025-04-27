@@ -11,6 +11,11 @@
         let maxscore = 0
         let score = 0
 
+        //função para aleatoriedade
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         //começar jogo!
         function comecarjogo(){
 
@@ -34,14 +39,23 @@
             crabmeat.style.left = "100%"
             crabmeat.classList.remove("walk")
             void crabmeat.offsetWidth;
-            crabmeat.classList.add("walk")
 
-            document.getElementById("xaxa").play()
+            greenhillsong.play()
 
             start.style.transform = "translatey(-150px)"
 
-
-            crabmeat.classList.add("walk")
+            function animarElemento() {
+                if(gameon == true){
+                    crabmeat.classList.add('walk');
+                    setTimeout(() => {
+                        crabmeat.classList.remove('walk');
+                        let proximodelay = random(0, 5000)
+                        setTimeout(animarElemento, proximodelay);
+                    }, 2000); // tempo da animação
+                }     
+            }
+            // Inicia a primeira animação
+            animarElemento();
         }
 
         // função pulo
