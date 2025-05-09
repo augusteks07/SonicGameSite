@@ -6,8 +6,8 @@
         let gameovertitle = document.querySelector(".gameover")
         let start = document.querySelector(".start")
         let restart = document.querySelector(".restart")
-        let greenhillsong = document.getElementById("xaxa")
-        let ggsong = document.getElementById("xoxo")
+        let greenhillsong = document.getElementById("basesong")
+        let ggsong = document.getElementById("gameoversong")
         let maxscore = 0
         let score = 0
 
