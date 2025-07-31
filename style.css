@@ -49,7 +49,7 @@ p {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-image: url('greenhill.jpeg');
+    background-image: url('./essenciais/greenhill.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
