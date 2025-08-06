@@ -43,7 +43,6 @@ p {
     width: 80%;
     height: 400px;
     margin: 0 auto;
-    border: 2px solid rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -53,7 +52,17 @@ p {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+}
+
+.floordiv {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.floor {
+    width: 33.4%;
 }
 
 .item {
