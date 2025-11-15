@@ -49,7 +49,6 @@ function jump() {
 
         sonic.classList.add("jump")
         sonic.src = "./essenciais/jump.png"
-        sonic.style.width = "80px"
 
         setTimeout(() => {
             if (gameover == false) {
@@ -58,9 +57,11 @@ function jump() {
                 if (score >= maxscore) {
                     maxscore = score
                 }
+                if(score == 999) {
+                    crabmeat.style.display = 'none'
+                }
 
                 sonic.classList.remove("jump")
-                sonic.style.width = "70px"
                 sonic.src = "./essenciais/sonic-running.gif"
                 document.getElementById("score").innerHTML = ("<strong>max jumps: " + maxscore + " | jumps: " + score + " </strong>")
             }
@@ -109,4 +110,6 @@ const loop = setInterval(() => {
 
 }, 100);
 
-document.addEventListener('keydown', jump)
+document.addEventListener("keydown", event => {
+    jump()
+})
