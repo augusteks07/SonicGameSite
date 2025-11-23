@@ -1,50 +1,85 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Joguinho | Sonic</title>
 </head>
+
 <body>
 
-    <audio id="basesong" autoplay loop>
+    <audio id="basesong" class="song">
         <source src="./essenciais/Sonic The Hedgehog OST - Green Hill Zone.mp3" type="audio/mpeg">
     </audio>
 
-    <audio id="gameoversong" autoplay>
+    <audio id="gameoversong" class="song">
         <source src="./essenciais/Sonic 1 Music Game Over - sonicKAI.mp3">
     </audio>
 
-    <main class="container">
+    <audio id="supersong" class="song">
+        <source src="./essenciais/superSonic.mp3">
+    </audio>
 
-        <img src="./essenciais/motobug.png" class="crabmeat">
-        <img src="./essenciais/sonic-esperando.gif" class="sonic">
+    <audio id="bossfightsong" class="song">
+        <source src="./essenciais/bossSong.mp3">
+    </audio>
 
-        <button class="butao start" onclick="comecarjogo()"> Começar jogo! </button>
+    <div class="page">
 
-        <div style="display: none;" class="item gameover"> GAME <span class="over"> OVER </span> </div>
-        <button style="display: none;" class="item butao restart" onclick="comecarjogo()"> Try again </button>
-        
-        <div id="score" style="position: absolute; top: 0; font-family: 'Anton', sans-serif; font-size: 25px; color: white; -webkit-text-stroke: 0.5px black;"> <strong>max jumps: 0 | jumps: 0</strong></div>
-    </main>
+        <main class="container">
 
-    <div class="floordiv"><img src="./essenciais/floor.png" class="floor"><img src="./essenciais/floor.png" class="floor"><img src="./essenciais/floor.png" class="floor"></div>
+            <h1 class="theend">THE END. <br> THANKS FOR PLAYING!</h1>
 
-    <button class="butao-pular mobile-only" onclick="jump()"> ↑ </button>
-        
-    <footer>
-        <strong>Sonic the Hedgehog © SEGA - All rights reserved.</strong>
-        
-        <p> Game Developer: Augusto César - 2025</p>
+            <img src="./essenciais/tree.png" class="arvore">
 
-        <a href="https://www.instagram.com/augustooc7" target="_blank">
-            <img src="./essenciais/instagram.png">
-        </a>
-    </footer>
-    
+            <!-- personagens -->
+            <img src="./essenciais/motobug.png" class="crabmeat">
+            <img src="./essenciais/sonic-esperando.gif" class="sonic">
+            <div class="eggman">
+
+                <div class="eggCorda"><img src="./essenciais/eggManBall.webp" class="eggBall"></div>
+
+                <img src="./essenciais/fire.gif" class="fire"
+                    style="width: 30px; height: 50px; position: absolute; left: 90px;">
+                <img src="./essenciais/fire.gif" class="fire"
+                    style="width: 30px; height: 50px; position: absolute; left: 0; bottom: 20px;">
+
+            </div>
+
+            <button class="butao start" onclick="comecarjogo()"> Começar jogo! </button>
+
+            <div style="display: none;" class="item gameover"> GAME <span class="over"> OVER </span> </div>
+            <button style="display: none;" class="item butao restart" onclick="location.reload()"> Try again </button>
+
+            <div id="score"
+                style="position: absolute; top: 0; font-family: 'Anton', sans-serif; font-size: 25px; color: white; -webkit-text-stroke: 0.7px black;">
+                <strong>max jumps: 0 | jumps: 0</strong>
+            </div>
+        </main>
+
+        <div class="floordiv"><img src="./essenciais/floor.png" class="floor"><img src="./essenciais/floor.png"
+                class="floor"><img src="./essenciais/floor.png" class="floor"></div>
+
+        <div class="mobile-controls">
+            <button class="botoes" id="leftBtn">◀</button>
+            <button class="botoes" id="rightBtn">▶</button>
+            <button class="botoes" id="jumpBtn">▲</button>
+        </div>
+
+        <footer>
+            <strong>Sonic the Hedgehog © SEGA - All rights reserved.</strong>
+
+            <p> Game Developer: Augusto César - 2025</p>
+
+        </footer>
+
+    </div>
+
     <script src="script.js">
     </script>
 
 </body>
+
 </html>

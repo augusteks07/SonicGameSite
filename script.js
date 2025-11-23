@@ -6,49 +6,61 @@ let crabmeat = document.querySelector(".crabmeat")
 let gameovertitle = document.querySelector(".gameover")
 let start = document.querySelector(".start")
 let restart = document.querySelector(".restart")
-let greenhillsong = document.getElementById("basesong")
-let ggsong = document.getElementById("gameoversong")
 let maxscore = 0
 let score = 0
+let eggman = document.querySelector(".eggman")
+let eggball = document.querySelector(".eggBall")
+let eggcorda = document.querySelector(".eggCorda")
+
+let fire = document.querySelectorAll(".fire")
+
+let greenhillsong = document.getElementById("basesong")
+let songs = document.querySelectorAll(".song")
+let ggsong = document.getElementById("gameoversong")
+let bossfightsong = document.getElementById("bossfightsong")
+let supersong = document.getElementById("supersong")
+
+const leftBtn = document.getElementById("leftBtn")
+const rightBtn = document.getElementById("rightBtn")
+const jumpBtn = document.getElementById("jumpBtn")
+
+// Bloqueia scroll na tela enquanto toca nos controles
+document.addEventListener("touchmove", e => e.preventDefault(), { passive: false })
+
+
+function desligarSons() {
+    songs.forEach(s => {
+        s.pause()
+    })
+}
+
+fire.forEach(f => {
+    f.style.display = "none"
+})
+
+let limiteDireita
 
 //começar jogo!
 function comecarjogo() {
 
-    restart.style.display = "none"
-    gameovertitle.style.display = "none"
-    gameover = false
     gameon = true
     score = 0
 
-    ggsong.currentTime = 0
-    ggsong.pause()
-    greenhillsong.currentTime = 0
+    desligarSons()
     greenhillsong.play()
 
-    sonic.style.left = "100px"
-    sonic.style.bottom = "0"
-    sonic.style.display = "block"
     sonic.src = "./essenciais/sonic-running.gif"
-    sonic.classList.remove("jump", "ascend")
-
-    crabmeat.style.left = "100%"
-    crabmeat.classList.remove("walk")
-    void crabmeat.offsetWidth;
-
-    greenhillsong.play()
 
     start.style.transform = "translatey(-150px)"
 
     crabmeat.classList.add("walk")
-
 }
 
 // função pulo
 function jump() {
-    if (!sonic.classList.contains('jump') && gameover == false && gameon == true) {
+    if (!sonic.classList.contains('jump') && gameover == false && gameon == true && finalBom) {
 
         sonic.classList.add("jump")
-        sonic.src = "./essenciais/jump.png"
 
         setTimeout(() => {
             if (gameover == false) {
@@ -57,16 +69,34 @@ function jump() {
                 if (score >= maxscore) {
                     maxscore = score
                 }
-                if(score == 999) {
-                    crabmeat.style.display = 'none'
+                if (score == 10) {
+                    bossFight()
                 }
 
                 sonic.classList.remove("jump")
-                sonic.src = "./essenciais/sonic-running.gif"
                 document.getElementById("score").innerHTML = ("<strong>max jumps: " + maxscore + " | jumps: " + score + " </strong>")
             }
-        }, 1100)
+        }, 1400)
     }
+}
+
+function enableHitboxes() {
+
+    if (getComputedStyle(sonic).borderWidth == "0px") {
+
+        sonic.style.border = "0.5px solid white"
+        crabmeat.style.border = "0.5px solid white"
+        eggman.style.border = "0.5px solid white"
+        eggball.style.border = "0.5px solid white"
+
+    } else {
+        sonic.style.border = "0px solid white"
+        crabmeat.style.border = "0px solid white"
+        eggman.style.border = "0px solid white"
+        eggball.style.border = "0px solid white"
+    }
+
+
 }
 
 // verificação infinita
@@ -74,20 +104,19 @@ const loop = setInterval(() => {
 
     if (gameon == true) {
 
+        limiteDireita = document.querySelector('.container').clientWidth - sonic.offsetWidth;
         let crabposition = crabmeat.offsetLeft
         let sonicposition = +window.getComputedStyle(sonic).bottom.replace("px", "")
 
         // gameover
-        if (crabposition <= 145 && crabposition >= 60 && sonicposition <= 60 && gameover == false) {
+        if (colidiu(sonic, crabmeat) || (colidiu(sonic, eggball) && isBossFight) && gameover == false) {
 
+            sonic.classList.remove('jump')
 
             gameon = false
             gameover = true
-            greenhillsong.pause()
-
-            ggsong.currentTime = 0
+            desligarSons()
             ggsong.play()
-
             crabmeat.classList.remove("walk")
             crabmeat.style.left = `${crabposition}px`
 
@@ -96,6 +125,8 @@ const loop = setInterval(() => {
             sonic.classList.add("ascend")
 
             gameovertitle.style.display = "block"
+
+            isBossFight = false
 
             setTimeout(() => {
 
@@ -108,8 +139,189 @@ const loop = setInterval(() => {
 
     }
 
-}, 100);
+    if (colidiu(sonic, eggman) && isBossFight && podeLevarDano) {
+        eggman.style.filter = "brightness(4)"
+        podeLevarDano = false
+        contadorDeDano++
 
-document.addEventListener("keydown", event => {
-    jump()
+        if (contadorDeDano == 8) {
+            fire.forEach(f => {
+                f.style.display = "inline"
+            })
+        }
+
+        if (contadorDeDano == 12) {
+            finalBom()
+        }
+
+        setTimeout(() => {
+            eggman.style.filter = ""
+            podeLevarDano = true
+        }, 500);
+    }
+
+    if (movingLeft && sonic.offsetLeft >= 6 && isBossFight) {
+        sonic.style.left = sonic.offsetLeft - 6 + "px"
+    }
+
+    if (movingRight && sonic.offsetLeft < limiteDireita && isBossFight) {
+        sonic.style.left = sonic.offsetLeft + 6 + "px"
+    }
+
+}, 16);
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft" && isBossFight) {
+        sonic.src = "./essenciais/sonic-running.gif"
+        sonic.style.transform = "scalex(-1)"
+        movingLeft = true
+    }
+    if (event.key === "ArrowRight" && isBossFight) {
+        sonic.src = "./essenciais/sonic-running.gif"
+        sonic.style.transform = "scalex(1)"
+        movingRight = true
+    }
+    if (event.key === "ArrowUp" && gameon) {
+        jump()
+    }
 })
+
+document.addEventListener("keyup", (event) => {
+    if (event.key === "ArrowLeft" && isBossFight) {
+        movingLeft = false
+        sonic.src = "./essenciais/sonic-parado.png"
+    }
+    if (event.key === "ArrowRight" && isBossFight) {
+        movingRight = false
+        sonic.src = "./essenciais/sonic-parado.png"
+    }
+})
+
+
+leftBtn.addEventListener("touchstart", () => {
+    if (isBossFight) {
+        sonic.src = "./essenciais/sonic-running.gif"
+        sonic.style.transform = "scaleX(-1)"
+        movingLeft = true
+    }
+})
+
+leftBtn.addEventListener("touchend", () => {
+    if (isBossFight) {
+        movingLeft = false
+        sonic.src = "./essenciais/sonic-parado.png"
+    }
+
+})
+
+rightBtn.addEventListener("touchstart", () => {
+    if (isBossFight) {
+        sonic.src = "./essenciais/sonic-running.gif"
+        sonic.style.transform = "scaleX(1)"
+        movingRight = true
+    }
+})
+
+rightBtn.addEventListener("touchend", () => {
+    if (isBossFight) {
+        movingRight = false
+        sonic.src = "./essenciais/sonic-parado.png"
+    }
+
+})
+
+jumpBtn.addEventListener("touchstart", () => {
+    if (gameon) { jump() }
+})
+
+
+let virado = 1
+
+eggman.addEventListener("animationiteration", (event) => {
+
+    if (event.animationName === "eggMoves") {
+
+        if (virado % 2 == 0) {
+            eggman.style.backgroundImage = "url(./essenciais/eggManVirado.webp)"
+        } else {
+            eggman.style.backgroundImage = "url(./essenciais/eggMan.webp)"
+        }
+        virado += 1
+
+    }
+
+
+})
+
+let isBossFight = false
+let movingLeft = false
+let movingRight = false
+let podeLevarDano = true
+let contadorDeDano = 0
+
+function bossFight() {
+    desligarSons()
+    bossfightsong.play()
+    crabmeat.style.display = "none"
+    sonic.style.left = "50%"
+    sonic.style.transform = "translatex(-50%)"
+    sonic.style.transition = "1.5s"
+    setTimeout(() => {
+        isBossFight = true
+        sonic.src = './essenciais/sonic-parado.png'
+        sonic.style.transition = 'none'
+        eggman.style.transition = "4s"
+        eggman.style.left = "40px"
+        eggman.style.transform = "translatex(-50%)"
+        setTimeout(() => {
+            eggman.classList.add("eggmoves")
+            eggman.style.transition = "0s"
+            eggman.style.backgroundImage = "url(./essenciais/eggManVirado.webp)"
+        }, 4000);
+    }, 1500);
+}
+
+function finalBom() {
+    desligarSons()
+    supersong.play()
+    gameon = false
+    isBossFight = false
+    let finalBom = true
+    eggman.style.filter = ""
+
+    document.querySelectorAll("*").forEach(el => {
+        el.style.animationPlayState = "paused"
+    })
+
+
+    arvore = document.querySelector(".arvore")
+
+    arvore.style.animationPlayState = "running"
+
+    eggman.style.transition = "8s"
+
+    eggman.style.transform = "translatex(100vw)"
+    sonic.style.transform = "scaleX(1)"
+    sonic.style.bottom = "130px"
+    sonic.classList.remove("jump")
+    eggcorda.style.transition = "1s"
+    eggcorda.style.bottom = "-500px"
+    sonic.src = "./essenciais/superSonic.gif"
+    setTimeout(() => {
+        sonic.src = "./essenciais/SSvoador.gif"
+        arvore.classList.add("walk")
+        document.querySelector(".theend").style.display = "block"
+    }, 1100);
+}
+
+function colidiu(a, b) {
+    const A = a.getBoundingClientRect();
+    const B = b.getBoundingClientRect();
+
+    return (
+        A.left < B.right &&
+        A.right > B.left &&
+        A.top < B.bottom &&
+        A.bottom > B.top
+    );
+}

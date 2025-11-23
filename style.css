@@ -13,11 +13,10 @@ footer {
     width: 100%;
     background: linear-gradient(to right, #00c3ff, #005bea);
     color: white;
-    padding: 10px;
-    font-size: 15px;
+    padding: 5px;
+    font-size: 30px;
     border-top: solid rgba(0, 0, 0, 0.5);
     text-align: center;
-    font-family: 'Press Start 2P', cursive;
 }
 
 img {
@@ -29,14 +28,12 @@ p {
     margin-bottom: 15px;
 }
 
-.mobile-only {
-    display: none;
-  }
+.page {
+    height: max-content;
+}
 
-
-
-.container {
-    width: 100%;
+main {
+    width: 100vw;
     height: 400px;
     margin: 0 auto;
     position: relative;
@@ -50,6 +47,26 @@ p {
     background-position: center;
 }
 
+.mobile-controls {
+    margin: 0 auto;
+    display: flex;
+    width: max-content;
+    gap: 30px;
+    margin-top: 50px;
+    display: none;
+}
+
+.botoes {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    background: linear-gradient(to right, #00c3ff, #005bea);
+    border: 3px solid black;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 0 8px #00c3ff, 0 0 20px #005bea;
+}
+
 .floordiv {
     display: flex;
     justify-content: center;
@@ -59,6 +76,7 @@ p {
 
 .floor {
     width: 33.4%;
+    height: 30px;
 }
 
 .item {
@@ -97,32 +115,6 @@ p {
     letter-spacing: 1px;
 }
 
-
-.butao-pular {
-    position: absolute;
-    right: 8vh;
-    bottom: 26vh;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 29px;
-    width: 10vh;
-    height: 10vh;
-    background: linear-gradient(to right, #00c3ff, #005bea);
-    color: white;
-    border: 3px solid #ffffff;
-    border-radius: 35%;
-    box-shadow: 0 0 10px #00c3ff, 0 0 20px #005bea;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    line-height: 55px;
-}
-
-.butao-pular:active {
-    background: linear-gradient(to right, #ffcc00, #ff6600);
-    color: #000;
-    box-shadow: 0 0 15px #ffcc00, 0 0 25px #ff6600;
-}
-
 .butao:active {
     background: linear-gradient(to right, #ffcc00, #ff6600);
     color: #000;
@@ -133,18 +125,69 @@ p {
 
 .sonic {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 90px;
     bottom: 0;
     left: 100px;
 }
 
 .crabmeat {
-    width: 110px;
+    width: 90px;
+    height: 80px;
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+}
+
+.eggman {
+    background-image: url("./essenciais/eggMan.webp");
+    width: 130px;
+    height: 120px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 45%;
+    position: absolute;
+    bottom: 180px;
+    display: flex;
+    justify-content: center;
+    left: 120%;
+}
+
+.eggCorda {
+    width: 30px;
     height: 110px;
     position: absolute;
-    bottom: -10px;
-    left: 100%;
+    bottom: -80%;
+    background-image: url('./essenciais/eggCorda.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    transform-origin: top;
+    animation: swing 2s infinite ease-in-out alternate;
+}
+
+.eggBall {
+    position: absolute;
+    width: 80px;
+    bottom: -78px;
+    border-radius: 50%;
+}
+
+.arvore {
+    position: absolute;
+    bottom: 0;
+    width: 100px;
+    left: 110%;
+}
+
+.theend {
+    margin-top: 150px;
+    font-size: 25px;
+    color: white;
+    display: none;
 }
 
 .walk {
@@ -152,11 +195,16 @@ p {
 }
 
 .jump {
-    animation: jump 1.2s ease-out;
+    animation: jump 1.4s ease-out;
+    content: url("./essenciais/jump.png");
 }
 
 .ascend {
     animation: ascender 2.2s ease-in;
+}
+
+.eggmoves {
+    animation: eggMoves 4s alternate infinite linear;
 }
 
 @keyframes walk {
@@ -175,7 +223,7 @@ p {
     }
 
     40% {
-        bottom: 100px;
+        bottom: 150px;
     }
 
     100% {
@@ -189,9 +237,28 @@ p {
     }
 
     to {
-        transform: translateY(-600px);
+        transform: translateY(-1000px);
     }
 }
+
+@keyframes swing {
+    from {
+        transform: rotate(-80deg);
+    }
+    to {
+        transform: rotate(80deg);
+    }
+}
+
+@keyframes eggMoves {
+    from {
+        left: 40px;
+    }
+    to {
+        left: 95%;
+    }
+}
+
 
 @media (max-width: 768px) {
     .mobile-only {
@@ -201,11 +268,28 @@ p {
         width: 70px;
         height: 70px;
     }
-    .crabmeat {
-        height: 80px;
-        width: 80px;
-    }
     .gameover {
         font-size: 30px;
+    }
+    .crabmeat {
+        width: 75px;
+        height: 65px;
+    }
+    .walk {
+        animation: walk 1.6s linear infinite;
+    }
+    .eggBall {
+        width: 60px;
+        bottom: -60px;
+    }
+    .eggman {
+        bottom: 165px;
+        left: 127%;
+    }
+    footer {
+        font-size: 12px;
+    }
+    .mobile-controls {
+        display: flex;
     }
 }
