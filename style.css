@@ -60,11 +60,28 @@ main {
     width: 70px;
     height: 70px;
     font-size: 30px;
-    background: linear-gradient(to right, #00c3ff, #005bea);
+    background-color: #005bea;
     border: 3px solid black;
     border-radius: 12px;
     color: white;
     box-shadow: 0 0 8px #00c3ff, 0 0 20px #005bea;
+
+}
+
+#leftBtn {
+    background-image: url("./essenciais/leftSeta.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#rightBtn {
+    background-image: url("./essenciais/seta.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+#jumpBtn {
+    background-image: url("./essenciais/uppSeta.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .floordiv {
@@ -245,6 +262,7 @@ main {
     from {
         transform: rotate(-80deg);
     }
+
     to {
         transform: rotate(80deg);
     }
@@ -254,6 +272,7 @@ main {
     from {
         left: 40px;
     }
+
     to {
         left: 95%;
     }
@@ -264,31 +283,39 @@ main {
     .mobile-only {
         display: block;
     }
+
     .sonic {
         width: 70px;
         height: 70px;
     }
+
     .gameover {
         font-size: 30px;
     }
+
     .crabmeat {
         width: 75px;
         height: 65px;
     }
+
     .walk {
         animation: walk 1.6s linear infinite;
     }
+
     .eggBall {
         width: 60px;
         bottom: -60px;
     }
+
     .eggman {
         bottom: 165px;
         left: 127%;
     }
+
     footer {
         font-size: 12px;
     }
+
     .mobile-controls {
         display: flex;
     }
