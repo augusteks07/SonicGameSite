@@ -80,6 +80,8 @@ function jump() {
     }
 }
 
+enableHitboxes()
+
 function enableHitboxes() {
 
     if (getComputedStyle(sonic).borderWidth == "0px") {
@@ -293,7 +295,6 @@ function finalBom() {
         el.style.animationPlayState = "paused"
     })
 
-
     arvore = document.querySelector(".arvore")
 
     arvore.style.animationPlayState = "running"
@@ -308,6 +309,8 @@ function finalBom() {
     eggcorda.style.bottom = "-500px"
     sonic.src = "./essenciais/superSonic.gif"
     setTimeout(() => {
+        sonic.style.transition = "1s"
+        sonic.style.transform = "translatey(20px)"
         sonic.src = "./essenciais/SSvoador.gif"
         arvore.classList.add("walk")
         document.querySelector(".theend").style.display = "block"

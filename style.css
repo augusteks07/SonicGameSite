@@ -214,6 +214,7 @@ main {
 .jump {
     animation: jump 1.4s ease-out;
     content: url("./essenciais/jump.png");
+    border-radius: 30%;
 }
 
 .ascend {
@@ -296,6 +297,7 @@ main {
     .crabmeat {
         width: 75px;
         height: 65px;
+        border-radius: 30%;
     }
 
     .walk {
@@ -312,11 +314,18 @@ main {
         left: 127%;
     }
 
+    .eggmoves {
+        animation: eggMoves 5s alternate infinite linear;;
+    }
+
     footer {
         font-size: 12px;
     }
 
     .mobile-controls {
         display: flex;
+    }
+    .eggCorda {
+        animation: swing 3s infinite ease-in-out alternate;
     }
 }
