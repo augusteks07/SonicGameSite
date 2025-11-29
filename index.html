@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Joguinho | Sonic</title>
+    <title>Sonic Fangame</title>
 </head>
 
 <body>
@@ -48,19 +48,23 @@
 
             </div>
 
-            <button class="butao start" onclick="comecarjogo()"> Começar jogo! </button>
+            <button class="butao start" onclick="comecarjogo()"> Start! </button>
 
             <div style="display: none;" class="item gameover"> GAME <span class="over"> OVER </span> </div>
             <button style="display: none;" class="item butao restart" onclick="location.reload()"> Try again </button>
 
             <div id="score"
                 style="position: absolute; top: 0; font-family: 'Anton', sans-serif; font-size: 25px; color: white; -webkit-text-stroke: 0.7px black;">
-                <strong>max jumps: 0 | jumps: 0</strong>
+                <strong>Score: 0</strong>
             </div>
         </main>
 
-        <div class="floordiv"><img src="./essenciais/floor.png" class="floor"><img src="./essenciais/floor.png"
-                class="floor"><img src="./essenciais/floor.png" class="floor"></div>
+        <div class="floordiv"><img src="./essenciais/floor.png" class="floor"><img src="./essenciais/floor.png" class="floor">
+            <img src="./essenciais/floor.png" class="floor">
+        </div>
+
+        <div class="tip wasd">use WASD</div>
+        <div class="tip">BossFight at 10 score</div>
 
         <div class="mobile-controls">
             <button class="botoes" id="leftBtn"></button>

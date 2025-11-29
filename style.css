@@ -226,6 +226,25 @@ main {
     animation: eggMoves 5s alternate infinite linear;
 }
 
+.tip {
+    font-size: 30px;
+    margin: 4vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tip::before {
+    content: "";
+    width: 10px;
+    height: 10px;   
+    border-radius: 50%; 
+    background: linear-gradient(to right, #00c3ff, #005bea);
+    display: inline;
+    position: absolute;
+    left: -15px;
+}
+
 @keyframes walk {
     from {
         left: 100%;
@@ -280,7 +299,6 @@ main {
     }
 }
 
-
 @media (max-width: 768px) {
     .mobile-only {
         display: block;
@@ -321,5 +339,9 @@ main {
 
     .mobile-controls {
         display: flex;
+    }
+
+    .wasd {
+        display: none;
     }
 }

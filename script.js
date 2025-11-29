@@ -6,7 +6,6 @@ let crabmeat = document.querySelector(".crabmeat")
 let gameovertitle = document.querySelector(".gameover")
 let start = document.querySelector(".start")
 let restart = document.querySelector(".restart")
-let maxscore = 0
 let score = 0
 let eggman = document.querySelector(".eggman")
 let eggball = document.querySelector(".eggBall")
@@ -54,6 +53,10 @@ function comecarjogo() {
     start.style.transform = "translatey(-150px)"
 
     crabmeat.classList.add("walk")
+
+    document.querySelectorAll(".tip").forEach(i => {
+        i.style.display = "none"
+    })
 }
 
 // função pulo
@@ -66,15 +69,16 @@ function jump() {
             if (gameover == false) {
 
                 score = score + 1
-                if (score >= maxscore) {
-                    maxscore = score
-                }
+
                 if (score == 10) {
                     bossFight()
                 }
 
+                if (!isBossFight) {
+                    document.getElementById("score").innerHTML = ("Score: " + score)
+                }
+
                 sonic.classList.remove("jump")
-                document.getElementById("score").innerHTML = ("<strong>max jumps: " + maxscore + " | jumps: " + score + " </strong>")
             }
         }, 1400)
     }
@@ -143,6 +147,8 @@ const loop = setInterval(() => {
         eggman.style.filter = "brightness(4)"
         podeLevarDano = false
         contadorDeDano++
+        score++
+        document.getElementById("score").innerHTML = ("Score: " + score)
 
         if (contadorDeDano == 8) {
             fire.forEach(f => {
@@ -171,27 +177,27 @@ const loop = setInterval(() => {
 }, 16);
 
 document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft" && isBossFight) {
+    if ((event.key === "ArrowLeft" || event.key === "a") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(-1)"
         movingLeft = true
     }
-    if (event.key === "ArrowRight" && isBossFight) {
+    if ((event.key === "ArrowRight" || event.key === "d") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(1)"
         movingRight = true
     }
-    if (event.key === "ArrowUp" && gameon) {
+    if ((event.key === "ArrowUp" || event.key == "w") && gameon) {
         jump()
     }
 })
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === "ArrowLeft" && isBossFight) {
+    if ((event.key === "ArrowLeft" || event.key === "a") && isBossFight) {
         movingLeft = false
         sonic.src = "./essenciais/sonic-parado.png"
     }
-    if (event.key === "ArrowRight" && isBossFight) {
+    if ((event.key === "ArrowRight" || event.key === "d") && isBossFight) {
         movingRight = false
         sonic.src = "./essenciais/sonic-parado.png"
     }
