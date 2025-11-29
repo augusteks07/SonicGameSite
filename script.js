@@ -80,8 +80,6 @@ function jump() {
     }
 }
 
-enableHitboxes()
-
 function enableHitboxes() {
 
     if (getComputedStyle(sonic).borderWidth == "0px") {
