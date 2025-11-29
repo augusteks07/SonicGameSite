@@ -272,14 +272,14 @@ function bossFight() {
         isBossFight = true
         sonic.src = './essenciais/sonic-parado.png'
         sonic.style.transition = 'none'
-        eggman.style.transition = "4s"
+        eggman.style.transition = "8s"
         eggman.style.left = "40px"
         eggman.style.transform = "translatex(-50%)"
         setTimeout(() => {
             eggman.classList.add("eggmoves")
             eggman.style.transition = "0s"
             eggman.style.backgroundImage = "url(./essenciais/eggManVirado.webp)"
-        }, 4000);
+        }, 7000);
     }, 1500);
 }
 
@@ -303,7 +303,7 @@ function finalBom() {
 
     eggman.style.transform = "translatex(100vw)"
     sonic.style.transform = "scaleX(1)"
-    sonic.style.bottom = "130px"
+    sonic.style.bottom = "120px"
     sonic.classList.remove("jump")
     eggcorda.style.transition = "1s"
     eggcorda.style.bottom = "-500px"

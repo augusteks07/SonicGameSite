@@ -169,6 +169,7 @@ main {
     display: flex;
     justify-content: center;
     left: 120%;
+    transition-timing-function: linear;
 }
 
 .eggCorda {
@@ -183,7 +184,7 @@ main {
     display: flex;
     justify-content: center;
     transform-origin: top;
-    animation: swing 2s infinite ease-in-out alternate;
+    animation: swing 3s infinite ease-in-out alternate;
 }
 
 .eggBall {
@@ -222,7 +223,7 @@ main {
 }
 
 .eggmoves {
-    animation: eggMoves 4s alternate infinite linear;
+    animation: eggMoves 5s alternate infinite linear;
 }
 
 @keyframes walk {
@@ -314,18 +315,11 @@ main {
         left: 127%;
     }
 
-    .eggmoves {
-        animation: eggMoves 5s alternate infinite linear;;
-    }
-
     footer {
         font-size: 12px;
     }
 
     .mobile-controls {
         display: flex;
-    }
-    .eggCorda {
-        animation: swing 3s infinite ease-in-out alternate;
     }
 }
