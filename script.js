@@ -10,6 +10,8 @@ let score = 0
 let eggman = document.querySelector(".eggman")
 let eggball = document.querySelector(".eggBall")
 let eggcorda = document.querySelector(".eggCorda")
+let dashImg = document.querySelector(".dash")
+let isDashing = false
 
 let fire = document.querySelectorAll(".fire")
 
@@ -70,7 +72,7 @@ function jump() {
 
                 score = score + 1
 
-                if (score == 10) {
+                if (score == 1) {
                     bossFight()
                 }
 
@@ -105,6 +107,17 @@ function enableHitboxes() {
 
 // verificação infinita
 const loop = setInterval(() => {
+
+    if (!isDashing) {
+        dashImg.style.bottom = window.getComputedStyle(sonic).bottom
+        dashImg.style.left = sonic.offsetLeft + "px"
+    }
+
+    if(movingLeft && !isDashing) {
+        dashImg.style.transform = "scaleX(-1)"
+    } else if (movingRight && !isDashing) {
+        dashImg.style.transform = "scaleX(1)"
+    }
 
     if (gameon == true) {
 
@@ -166,29 +179,36 @@ const loop = setInterval(() => {
         }, 500);
     }
 
-    if (movingLeft && sonic.offsetLeft >= 6 && isBossFight) {
-        sonic.style.left = sonic.offsetLeft - 6 + "px"
+    if (movingLeft && sonic.offsetLeft >= velocidade && isBossFight) {
+        sonic.style.left = sonic.offsetLeft - velocidade + "px"
     }
 
     if (movingRight && sonic.offsetLeft < limiteDireita && isBossFight) {
-        sonic.style.left = sonic.offsetLeft + 6 + "px"
+        sonic.style.left = sonic.offsetLeft + velocidade + "px"
     }
 
 }, 16);
+
+let direcao;
 
 document.addEventListener("keydown", (event) => {
     if ((event.key === "ArrowLeft" || event.key === "a") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(-1)"
         movingLeft = true
+        direcao = "esquerda"
     }
     if ((event.key === "ArrowRight" || event.key === "d") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(1)"
         movingRight = true
+        direcao = "direita"
     }
     if ((event.key === "ArrowUp" || event.key == "w") && gameon) {
         jump()
+    }
+    if (event.key === "q" && gameon) {
+        dash()
     }
 })
 
@@ -294,6 +314,7 @@ function finalBom() {
     isBossFight = false
     let finalBom = true
     eggman.style.filter = ""
+    crabmeat.style.display = "none"
 
     document.querySelectorAll("*").forEach(el => {
         el.style.animationPlayState = "paused"
@@ -331,4 +352,28 @@ function colidiu(a, b) {
         A.top < B.bottom &&
         A.bottom > B.top
     );
+}
+
+let velocidade = 6
+
+function dash() {
+    velocidade = 25
+    sonic.src = "./essenciais/jump.png"
+    isDashing = true
+
+    dashImg.style.opacity = "1"
+
+    setTimeout(() => {
+        if (gameon) {
+            velocidade = 6
+            sonic.src = "./essenciais/sonic-running.gif"
+
+            dashImg.style.opacity = "0"
+
+            setTimeout(() => {
+                isDashing = false
+            }, 200);
+
+        }
+    }, 200);
 }
