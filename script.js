@@ -169,8 +169,8 @@ const loop = setInterval(() => {
             })
         }
 
-        if (contadorDeDano == 12) {
-            finalBom()
+        if (contadorDeDano == 3) {
+            bossFight2()
         }
 
         setTimeout(() => {
@@ -189,25 +189,21 @@ const loop = setInterval(() => {
 
 }, 16);
 
-let direcao;
-
 document.addEventListener("keydown", (event) => {
     if ((event.key === "ArrowLeft" || event.key === "a") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(-1)"
         movingLeft = true
-        direcao = "esquerda"
     }
     if ((event.key === "ArrowRight" || event.key === "d") && isBossFight) {
         sonic.src = "./essenciais/sonic-running.gif"
         sonic.style.transform = "scalex(1)"
         movingRight = true
-        direcao = "direita"
     }
     if ((event.key === "ArrowUp" || event.key == "w") && gameon) {
         jump()
     }
-    if (event.key === "q" && gameon) {
+    if (event.key === "q" && gameon && canDash) {
         dash()
     }
 })
@@ -312,7 +308,6 @@ function finalBom() {
     supersong.play()
     gameon = false
     isBossFight = false
-    let finalBom = true
     eggman.style.filter = ""
     crabmeat.style.display = "none"
 
@@ -323,8 +318,6 @@ function finalBom() {
     arvore = document.querySelector(".arvore")
 
     arvore.style.animationPlayState = "running"
-
-    eggman.style.transition = "8s"
 
     eggman.style.transform = "translatex(100vw)"
     sonic.style.transform = "scaleX(1)"
@@ -355,11 +348,17 @@ function colidiu(a, b) {
 }
 
 let velocidade = 6
+let canDash = true
 
 function dash() {
     velocidade = 25
     sonic.src = "./essenciais/jump.png"
     isDashing = true
+    canDash = false
+
+    setTimeout(() => {
+        canDash = true
+    }, 1000);
 
     dashImg.style.opacity = "1"
 
@@ -372,8 +371,19 @@ function dash() {
 
             setTimeout(() => {
                 isDashing = false
-            }, 200);
+            }, 200); 
 
         }
     }, 200);
+}
+
+function bossFight2() {
+    eggman.style.filter = ""
+    eggman.style.animationPlayState = "paused"
+    eggcorda.style.transition = "1s"
+    eggcorda.style.bottom = "-500px"
+    setTimeout(() => {
+        eggman.style.transform = "translatex(120vw)"
+        eggman.style.transition = "4s"        
+    }, 400);
 }
