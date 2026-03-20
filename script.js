@@ -13,6 +13,8 @@ let eggcorda = document.querySelector(".eggCorda")
 let dashImg = document.querySelector(".dash")
 let isDashing = false
 
+let bigJump = false
+
 let fire = document.querySelectorAll(".fire")
 
 let greenhillsong = document.getElementById("basesong")
@@ -64,7 +66,7 @@ function comecarjogo() {
 
 // função pulo
 function jump() {
-    if (!sonic.classList.contains('jump') && gameover == false && gameon == true && finalBom) {
+    if (!sonic.classList.contains('jump') && gameover == false && gameon == true && !bigJump && finalBom) {
 
         sonic.classList.add("jump")
 
@@ -126,12 +128,14 @@ const loop = setInterval(() => {
         sonic.style.transition = "bottom 0.8s ease-out"
         sonic.style.bottom = "340px"
         sonic.src = "./essenciais/jump.png"
+        bigJump = true
         setTimeout(() => {
             sonic.style.transition = "bottom 1s ease-out"
             sonic.style.bottom = "0"
             setTimeout(() => {
                 sonic.src = "./essenciais/sonic-running.gif"
-            }, 3000);
+                bigJump = false
+            }, 1200);
         }, 800);
     }
 
