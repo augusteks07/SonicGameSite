@@ -377,6 +377,10 @@ function dash() {
     }, 200);
 }
 
+const fabry = document.querySelector(".fabry")
+const hadouken = document.querySelector(".hadouken")
+let isFabry = false
+
 function bossFight2() {
     eggman.style.filter = ""
     eggman.style.animationPlayState = "paused"
@@ -385,5 +389,42 @@ function bossFight2() {
     setTimeout(() => {
         eggman.style.transform = "translatex(120vw)"
         eggman.style.transition = "4s"        
+        setTimeout(() => {
+            fabry.style.left = "50%"
+            fabry.style.transform = "translatex(-50%)"
+            isFabry = true
+            setTimeout(() => {
+                lancarHadouken()
+            }, 2000);
+        }, 2000);
     }, 400);
+}
+
+function lancarHadouken() {
+    let sonicRect = sonic.getBoundingClientRect();
+    let hadoukenRect = hadouken.getBoundingClientRect();
+
+    let dX = sonicRect.left;
+    let dY = sonicRect.top;
+
+    let hX = hadoukenRect.left;
+    let hY = hadoukenRect.top;
+
+    let dx = dX - hX;
+    let dy = dY - hY;
+
+    // normaliza direção
+    let dist = Math.sqrt(dx * dx + dy * dy);
+    dx /= dist;
+    dy /= dist;
+    
+    let distanciaGrande = 2000;
+
+    let finalX = hX + dx * distanciaGrande;
+    let finalY = hY + dy * distanciaGrande;
+
+    hadouken.style.transition = "left 2s linear, top 2s linear";
+
+    hadouken.style.left = finalX + "px";
+    hadouken.style.top = finalY + "px";
 }

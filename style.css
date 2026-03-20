@@ -157,6 +157,21 @@ main {
     left: 100px;
 }
 
+.fabry { 
+    position: absolute;
+    bottom: 100px;
+    width: 100px;
+    transition: 8s;
+    left: 150%;
+}
+
+.hadouken {
+    width: 80px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
 .crabmeat {
     width: 90px;
     height: 80px;
