@@ -20,6 +20,7 @@ let songs = document.querySelectorAll(".song")
 let ggsong = document.getElementById("gameoversong")
 let bossfightsong = document.getElementById("bossfightsong")
 let supersong = document.getElementById("supersong")
+const spring = document.querySelector(".spring")
 
 const leftBtn = document.getElementById("leftBtn")
 const rightBtn = document.getElementById("rightBtn")
@@ -105,6 +106,8 @@ function enableHitboxes() {
 
 }
 
+let sonicposition
+
 // verificação infinita
 const loop = setInterval(() => {
 
@@ -113,44 +116,34 @@ const loop = setInterval(() => {
         dashImg.style.left = sonic.offsetLeft + "px"
     }
 
-    if(movingLeft && !isDashing) {
+    if (movingLeft && !isDashing) {
         dashImg.style.transform = "scaleX(-1)"
     } else if (movingRight && !isDashing) {
         dashImg.style.transform = "scaleX(1)"
     }
 
+    if (colidiu(sonic, spring)) {
+        sonic.style.transition = "bottom 0.8s ease-out"
+        sonic.style.bottom = "340px"
+        sonic.src = "./essenciais/jump.png"
+        setTimeout(() => {
+            sonic.style.transition = "bottom 1s ease-out"
+            sonic.style.bottom = "0"
+            setTimeout(() => {
+                sonic.src = "./essenciais/sonic-running.gif"
+            }, 3000);
+        }, 800);
+    }
+
     if (gameon == true) {
 
         limiteDireita = document.querySelector('.container').clientWidth - sonic.offsetWidth;
-        let crabposition = crabmeat.offsetLeft
-        let sonicposition = +window.getComputedStyle(sonic).bottom.replace("px", "")
+        sonicposition = +window.getComputedStyle(sonic).bottom.replace("px", "")
 
         // gameover
         if (colidiu(sonic, crabmeat) || (colidiu(sonic, eggball) && isBossFight) && gameover == false) {
 
-            sonic.classList.remove('jump')
-
-            gameon = false
-            gameover = true
-            desligarSons()
-            ggsong.play()
-            crabmeat.classList.remove("walk")
-            crabmeat.style.left = `${crabposition}px`
-
-            sonic.style.bottom = `${sonicposition}px`
-            sonic.src = "./essenciais/gameover.png"
-            sonic.classList.add("ascend")
-
-            gameovertitle.style.display = "block"
-
-            isBossFight = false
-
-            setTimeout(() => {
-
-                restart.style.display = "block"
-                sonic.style.display = "none"
-
-            }, 2000)
+            gameOverFunc()
 
         }
 
@@ -256,7 +249,6 @@ jumpBtn.addEventListener("touchstart", () => {
     if (gameon) { jump() }
 })
 
-
 let virado = 1
 
 eggman.addEventListener("animationiteration", (event) => {
@@ -301,6 +293,31 @@ function bossFight() {
             eggman.style.backgroundImage = "url(./essenciais/eggManVirado.webp)"
         }, 7000);
     }, 1500);
+}
+
+function gameOverFunc() {
+    sonic.classList.remove('jump')
+
+    gameon = false
+    gameover = true
+    desligarSons()
+    ggsong.play()
+    crabmeat.classList.remove("walk")
+
+    sonic.style.bottom = `${sonicposition}px`
+    sonic.src = "./essenciais/gameover.png"
+    sonic.classList.add("ascend")
+
+    gameovertitle.style.display = "block"
+
+    isBossFight = false
+
+    setTimeout(() => {
+
+        restart.style.display = "block"
+        sonic.style.display = "none"
+
+    }, 2000)
 }
 
 function finalBom() {
@@ -371,15 +388,15 @@ function dash() {
 
             setTimeout(() => {
                 isDashing = false
-            }, 200); 
+            }, 200);
 
         }
     }, 200);
 }
 
 const fabry = document.querySelector(".fabry")
-const hadouken = document.querySelector(".hadouken")
 let isFabry = false
+let isLancandoHadouken = false
 
 function bossFight2() {
     eggman.style.filter = ""
@@ -388,43 +405,77 @@ function bossFight2() {
     eggcorda.style.bottom = "-500px"
     setTimeout(() => {
         eggman.style.transform = "translatex(120vw)"
-        eggman.style.transition = "4s"        
+        eggman.style.transition = "4s"
         setTimeout(() => {
             fabry.style.left = "50%"
             fabry.style.transform = "translatex(-50%)"
             isFabry = true
             setTimeout(() => {
-                lancarHadouken()
-            }, 2000);
+                isLancandoHadouken = true
+            }, 2200);
         }, 2000);
     }, 400);
 }
 
 function lancarHadouken() {
+    // cria o elemento
+    let hadouken = document.createElement("img");
+    hadouken.classList.add("hadouken");
+    hadouken.src = "./essenciais/hadouken.png";
+
+    // posição inicial (ex: centro da tela ou boss)
+    let startX = window.innerWidth / 2;
+    let startY = window.innerHeight / 2;
+
+    hadouken.style.left = startX + "px";
+    hadouken.style.top = startY - 50 + "px";
+
+    let main = document.querySelector(".container");
+    main.appendChild(hadouken);
+
+    // pega posição do Sonic
     let sonicRect = sonic.getBoundingClientRect();
-    let hadoukenRect = hadouken.getBoundingClientRect();
 
     let dX = sonicRect.left;
-    let dY = sonicRect.top;
+    let dY = sonicRect.top + 35;
 
-    let hX = hadoukenRect.left;
-    let hY = hadoukenRect.top;
-
-    let dx = dX - hX;
-    let dy = dY - hY;
+    let dx = dX - startX;
+    let dy = dY - startY;
 
     // normaliza direção
     let dist = Math.sqrt(dx * dx + dy * dy);
     dx /= dist;
     dy /= dist;
-    
+
+    let angulo = Math.atan2(dy, dx); // em radianos
+    let anguloGraus = angulo * (180 / Math.PI);
+
+    hadouken.style.transform = `rotate(${anguloGraus}deg)`;
+
     let distanciaGrande = 2000;
 
-    let finalX = hX + dx * distanciaGrande;
-    let finalY = hY + dy * distanciaGrande;
+    let finalX = startX + dx * distanciaGrande;
+    let finalY = startY + dy * distanciaGrande;
 
-    hadouken.style.transition = "left 2s linear, top 2s linear";
 
-    hadouken.style.left = finalX + "px";
-    hadouken.style.top = finalY + "px";
+
+    // animação
+    hadouken.style.transition = "left 4s linear, top 4s linear";
+
+    // pequeno delay pra garantir que ele renderizou antes de mover
+    setTimeout(() => {
+        hadouken.style.left = finalX + "px";
+        hadouken.style.top = finalY + "px";
+    }, 10);
+
+    // remove depois de sair da tela
+    setTimeout(() => {
+        hadouken.remove();
+    }, 2100);
 }
+
+setInterval(() => {
+    if (isFabry && isLancandoHadouken && !gameover) {
+        lancarHadouken()
+    }
+}, 3000);

@@ -170,6 +170,14 @@ main {
     position: absolute;
     left: 50%;
     top: 50%;
+    filter: hue-rotate(180deg);
+}
+
+.spring {
+    width: 100px;
+    position: absolute;
+    bottom: -15px;
+    right: 0;
 }
 
 .crabmeat {
