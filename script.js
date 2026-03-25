@@ -13,6 +13,8 @@ let eggcorda = document.querySelector(".eggCorda")
 let dashImg = document.querySelector(".dash")
 let isDashing = false
 
+let hadouken = null
+
 let bigJump = false
 
 let fire = document.querySelectorAll(".fire")
@@ -66,7 +68,7 @@ function comecarjogo() {
 
 // função pulo
 function jump() {
-    if (!sonic.classList.contains('jump') && gameover == false && gameon == true && !bigJump && finalBom) {
+    if (!sonic.classList.contains('jump') && gameover == false && gameon == true && !bigJump && sonicposition == 0 && finalBom) {
 
         sonic.classList.add("jump")
 
@@ -124,7 +126,9 @@ const loop = setInterval(() => {
         dashImg.style.transform = "scaleX(1)"
     }
 
-    if (colidiu(sonic, spring)) {
+    if (colidiu(sonic, spring) && !sonic.classList.contains("jump")) {
+        sonic.style.bottom = "0"
+        sonic.classList.remove("jump")
         sonic.style.transition = "bottom 0.8s ease-out"
         sonic.style.bottom = "340px"
         sonic.src = "./essenciais/jump.png"
@@ -146,9 +150,11 @@ const loop = setInterval(() => {
 
         // gameover
         if (colidiu(sonic, crabmeat) || (colidiu(sonic, eggball) && isBossFight) && gameover == false) {
-
             gameOverFunc()
+        }
 
+        if(hadouken && colidiu(sonic, hadouken)) {
+            gameOverFunc()
         }
 
     }
@@ -174,6 +180,13 @@ const loop = setInterval(() => {
             eggman.style.filter = ""
             podeLevarDano = true
         }, 500);
+    }
+
+    if(colidiu(sonic, fabry)) {
+        contadorDeDanoFabry++
+        if(contadorDeDanoFabry == 5) {
+            finalBom()
+        }
     }
 
     if (movingLeft && sonic.offsetLeft >= velocidade && isBossFight) {
@@ -276,6 +289,7 @@ let movingLeft = false
 let movingRight = false
 let podeLevarDano = true
 let contadorDeDano = 0
+let contadorDeDanoFabry = 0
 
 function bossFight() {
     desligarSons()
@@ -416,14 +430,14 @@ function bossFight2() {
             isFabry = true
             setTimeout(() => {
                 isLancandoHadouken = true
-            }, 2200);
+            }, 6200);
         }, 2000);
     }, 400);
 }
 
 function lancarHadouken() {
     // cria o elemento
-    let hadouken = document.createElement("img");
+    hadouken = document.createElement("img");
     hadouken.classList.add("hadouken");
     hadouken.src = "./essenciais/hadouken.png";
 
