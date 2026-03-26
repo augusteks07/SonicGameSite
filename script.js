@@ -33,7 +33,6 @@ const jumpBtn = document.getElementById("jumpBtn")
 // Bloqueia scroll na tela enquanto toca nos controles
 document.addEventListener("touchmove", e => e.preventDefault(), { passive: false })
 
-
 function desligarSons() {
     songs.forEach(s => {
         s.pause()
@@ -182,11 +181,19 @@ const loop = setInterval(() => {
         }, 500);
     }
 
-    if(colidiu(sonic, fabry)) {
+    if(colidiu(sonic, fabry) && isFabry && podeLevarDano && isLancandoHadouken) {
         contadorDeDanoFabry++
-        if(contadorDeDanoFabry == 5) {
+        podeLevarDano = false
+        fabry.style.transition = "filter 0.1s"
+        fabry.style.filter = "brightness(4)"
+        if(contadorDeDanoFabry == 8) {
             finalBom()
         }
+
+        setTimeout(() => {
+            fabry.style.filter = ""
+            podeLevarDano = true
+        }, 500);
     }
 
     if (movingLeft && sonic.offsetLeft >= velocidade && isBossFight) {
