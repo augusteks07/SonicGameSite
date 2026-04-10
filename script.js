@@ -152,9 +152,15 @@ const loop = setInterval(() => {
             gameOverFunc()
         }
 
-        if(hadouken && colidiu(sonic, hadouken)) {
-            gameOverFunc()
-        }
+        let hadoukens = document.querySelectorAll(".hadouken");
+
+        hadoukens.forEach(h => {
+            if (!h || !h.isConnected) return;
+
+            if (colidiu(sonic, h)) {
+                gameOverFunc();
+            }
+        });
 
     }
 
@@ -181,12 +187,12 @@ const loop = setInterval(() => {
         }, 500);
     }
 
-    if(colidiu(sonic, fabry) && isFabry && podeLevarDano && isLancandoHadouken) {
+    if (colidiu(sonic, fabry) && isFabry && podeLevarDano && isLancandoHadouken) {
         contadorDeDanoFabry++
         podeLevarDano = false
         fabry.style.transition = "filter 0.1s"
         fabry.style.filter = "brightness(4)"
-        if(contadorDeDanoFabry == 8) {
+        if (contadorDeDanoFabry == 8) {
             finalBom()
         }
 
@@ -442,65 +448,95 @@ function bossFight2() {
     }, 400);
 }
 
-function lancarHadouken() {
-    // cria o elemento
-    hadouken = document.createElement("img");
+function lancarHadouken(tamanho, chuva) {
+    let hadouken = document.createElement("img");
     hadouken.classList.add("hadouken");
     hadouken.src = "./essenciais/hadouken.png";
-
-    // posição inicial (ex: centro da tela ou boss)
-    let startX = window.innerWidth / 2;
-    let startY = window.innerHeight / 2;
-
-    hadouken.style.left = startX + "px";
-    hadouken.style.top = startY - 50 + "px";
+    hadouken.style.width = tamanho + "px";
 
     let main = document.querySelector(".container");
     main.appendChild(hadouken);
 
-    // pega posição do Sonic
-    let sonicRect = sonic.getBoundingClientRect();
+    if (chuva) {
 
-    let dX = sonicRect.left;
-    let dY = sonicRect.top + 35;
+        console.log("lançando hadouken")
 
-    let dx = dX - startX;
-    let dy = dY - startY;
+        hadouken.style.left = Math.random() * window.innerWidth + "px";
+        hadouken.style.top = "-100px";
+        hadouken.style.transform = "rotate(90deg)";
 
-    // normaliza direção
-    let dist = Math.sqrt(dx * dx + dy * dy);
-    dx /= dist;
-    dy /= dist;
+        let finalY = window.innerHeight + 100;
 
-    let angulo = Math.atan2(dy, dx); // em radianos
-    let anguloGraus = angulo * (180 / Math.PI);
+        hadouken.style.transition = "top 3s linear";
 
-    hadouken.style.transform = `rotate(${anguloGraus}deg)`;
+        setTimeout(() => {
+            hadouken.style.top = finalY + "px";
+        }, 100);
 
-    let distanciaGrande = 2000;
+        setTimeout(() => {
+            hadouken.remove();
+        }, 3000);
 
-    let finalX = startX + dx * distanciaGrande;
-    let finalY = startY + dy * distanciaGrande;
+    } else {
+        let startX = window.innerWidth / 2;
+        let startY = window.innerHeight / 2;
 
+        hadouken.style.left = startX + "px";
+        hadouken.style.top = startY - 60 + "px";
 
+        let sonicRect = sonic.getBoundingClientRect();
 
-    // animação
-    hadouken.style.transition = "left 4s linear, top 4s linear";
+        let dX = sonicRect.left;
+        let dY = sonicRect.top + 35;
 
-    // pequeno delay pra garantir que ele renderizou antes de mover
-    setTimeout(() => {
-        hadouken.style.left = finalX + "px";
-        hadouken.style.top = finalY + "px";
-    }, 10);
+        let dx = dX - startX;
+        let dy = dY - startY;
 
-    // remove depois de sair da tela
-    setTimeout(() => {
-        hadouken.remove();
-    }, 2100);
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        dx /= dist;
+        dy /= dist;
+
+        let angulo = Math.atan2(dy, dx);
+        let anguloGraus = angulo * (180 / Math.PI);
+
+        hadouken.style.transform = `rotate(${anguloGraus}deg)`;
+
+        let distanciaGrande = 2000;
+
+        let finalX = startX + dx * distanciaGrande;
+        let finalY = startY + dy * distanciaGrande;
+
+        hadouken.style.transition = "left 5s linear, top 5s linear";
+
+        requestAnimationFrame(() => {
+            hadouken.style.left = finalX + "px";
+            hadouken.style.top = finalY + "px";
+        });
+
+        setTimeout(() => {
+            hadouken.remove();
+        }, 5000);
+    }
+}
+
+function chance(porcentagem) {
+    return Math.random() < porcentagem / 100
 }
 
 setInterval(() => {
-    if (isFabry && isLancandoHadouken && !gameover) {
-        lancarHadouken()
+
+    if(isBossFight && isLancandoHadouken && !gameover) {
+        if (chance(20)) {
+            lancarHadouken(80, true)
+            lancarHadouken(80, true)
+            lancarHadouken(80, true)
+        }
+        if (chance(70)) {
+            lancarHadouken(80, false)
+        }
+        if(chance(30)) {
+            lancarHadouken(120, false)
+        }
     }
-}, 3000);
+
+}, 5000);

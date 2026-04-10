@@ -165,8 +165,11 @@ main {
     left: 150%;
 }
 
+.exclamacao {
+    
+}
+
 .hadouken {
-    width: 80px;
     position: absolute;
     left: 50%;
     top: 50%;
