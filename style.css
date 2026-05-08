@@ -47,43 +47,6 @@ main {
     background-position: center;
 }
 
-.mobile-controls {
-    margin: 0 auto;
-    display: flex;
-    width: max-content;
-    gap: 30px;
-    margin-top: 50px;
-    display: none;
-}
-
-.botoes {
-    width: 70px;
-    height: 70px;
-    font-size: 30px;
-    background-color: #005bea;
-    border: 3px solid black;
-    border-radius: 12px;
-    color: white;
-    box-shadow: 0 0 8px #00c3ff, 0 0 20px #005bea;
-
-}
-
-#leftBtn {
-    background-image: url("./essenciais/leftSeta.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-#rightBtn {
-    background-image: url("./essenciais/seta.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-#jumpBtn {
-    background-image: url("./essenciais/uppSeta.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
 .floordiv {
     display: flex;
     justify-content: center;
@@ -139,6 +102,19 @@ main {
     transform: scale(1.05);
 }
 
+.menu {
+    margin: 30px;
+    cursor: pointer;
+    display: inline;
+}
+
+.menuWraper {
+    position: absolute;
+    left: 150px;
+    transform: translateY(-50px);
+    display: none;
+}
+
 .dash {
     position: absolute;
     width: 70px;
@@ -157,16 +133,12 @@ main {
     left: 100px;
 }
 
-.fabry { 
+.fabry {
     position: absolute;
-    bottom: 100px;
+    bottom: 30%;
     width: 100px;
     transition: 8s;
     left: 150%;
-}
-
-.exclamacao {
-    
 }
 
 .hadouken {
@@ -257,27 +229,12 @@ main {
     animation: ascender 2.2s ease-in;
 }
 
+.girar {
+    animation: girar 3s linear infinite;
+}
+
 .eggmoves {
     animation: eggMoves 5s alternate infinite linear;
-}
-
-.tip {
-    font-size: 30px;
-    margin: 4vw;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.tip::before {
-    content: "";
-    width: 10px;
-    height: 10px;   
-    border-radius: 50%; 
-    background: linear-gradient(to right, #00c3ff, #005bea);
-    display: inline;
-    position: absolute;
-    left: -15px;
 }
 
 @keyframes walk {
@@ -287,6 +244,15 @@ main {
 
     to {
         left: -73px;
+    }
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 
@@ -331,52 +297,5 @@ main {
 
     to {
         left: 95%;
-    }
-}
-
-@media (max-width: 768px) {
-    .mobile-only {
-        display: block;
-    }
-
-    .sonic {
-        width: 70px;
-        height: 70px;
-    }
-
-    .gameover {
-        font-size: 30px;
-    }
-
-    .crabmeat {
-        width: 75px;
-        height: 65px;
-        border-radius: 30%;
-    }
-
-    .walk {
-        animation: walk 1.6s linear infinite;
-    }
-
-    .eggBall {
-        width: 60px;
-        bottom: -60px;
-    }
-
-    .eggman {
-        bottom: 165px;
-        left: 127%;
-    }
-
-    footer {
-        font-size: 12px;
-    }
-
-    .mobile-controls {
-        display: flex;
-    }
-
-    .wasd {
-        display: none;
     }
 }

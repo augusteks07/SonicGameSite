@@ -189,6 +189,8 @@ const loop = setInterval(() => {
 
     if (colidiu(sonic, fabry) && isFabry && podeLevarDano && isLancandoHadouken) {
         contadorDeDanoFabry++
+        score++
+        document.getElementById("score").innerHTML = ("Score: " + score)
         podeLevarDano = false
         fabry.style.transition = "filter 0.1s"
         fabry.style.filter = "brightness(4)"
@@ -240,43 +242,6 @@ document.addEventListener("keyup", (event) => {
         movingRight = false
         sonic.src = "./essenciais/sonic-parado.png"
     }
-})
-
-
-leftBtn.addEventListener("touchstart", () => {
-    if (isBossFight) {
-        sonic.src = "./essenciais/sonic-running.gif"
-        sonic.style.transform = "scaleX(-1)"
-        movingLeft = true
-    }
-})
-
-leftBtn.addEventListener("touchend", () => {
-    if (isBossFight) {
-        movingLeft = false
-        sonic.src = "./essenciais/sonic-parado.png"
-    }
-
-})
-
-rightBtn.addEventListener("touchstart", () => {
-    if (isBossFight) {
-        sonic.src = "./essenciais/sonic-running.gif"
-        sonic.style.transform = "scaleX(1)"
-        movingRight = true
-    }
-})
-
-rightBtn.addEventListener("touchend", () => {
-    if (isBossFight) {
-        movingRight = false
-        sonic.src = "./essenciais/sonic-parado.png"
-    }
-
-})
-
-jumpBtn.addEventListener("touchstart", () => {
-    if (gameon) { jump() }
 })
 
 let virado = 1
@@ -352,6 +317,7 @@ function gameOverFunc() {
 }
 
 function finalBom() {
+    dash.style.display = "none"
     desligarSons()
     supersong.play()
     gameon = false
@@ -451,7 +417,7 @@ function bossFight2() {
 function lancarHadouken(tamanho, chuva) {
     let hadouken = document.createElement("img");
     hadouken.classList.add("hadouken");
-    hadouken.src = "./essenciais/hadouken.png";
+    hadouken.src = "./essenciais/arCond.png";
     hadouken.style.width = tamanho + "px";
 
     let main = document.querySelector(".container");
@@ -479,15 +445,15 @@ function lancarHadouken(tamanho, chuva) {
 
     } else {
         let startX = window.innerWidth / 2;
-        let startY = window.innerHeight / 2;
+        let startY = main.clientHeight / 1.6;
 
         hadouken.style.left = startX + "px";
-        hadouken.style.top = startY - 60 + "px";
+        hadouken.style.top = startY + "px";
 
         let sonicRect = sonic.getBoundingClientRect();
 
         let dX = sonicRect.left;
-        let dY = sonicRect.top + 35;
+        let dY = sonicRect.top + 60;
 
         let dx = dX - startX;
         let dy = dY - startY;
@@ -508,9 +474,13 @@ function lancarHadouken(tamanho, chuva) {
 
         hadouken.style.transition = "left 5s linear, top 5s linear";
 
+        hadouken.classList.add("girar")
+
         requestAnimationFrame(() => {
+
             hadouken.style.left = finalX + "px";
             hadouken.style.top = finalY + "px";
+
         });
 
         setTimeout(() => {
@@ -519,24 +489,35 @@ function lancarHadouken(tamanho, chuva) {
     }
 }
 
-function chance(porcentagem) {
-    return Math.random() < porcentagem / 100
-}
+let sorteio;
 
 setInterval(() => {
 
-    if(isBossFight && isLancandoHadouken && !gameover) {
-        if (chance(20)) {
-            lancarHadouken(80, true)
-            lancarHadouken(80, true)
-            lancarHadouken(80, true)
+    sorteio = Math.random()
+
+    if (isBossFight && isLancandoHadouken && !gameover) {
+        if (sorteio >= 0.5) {
+            lancarHadouken(90, false)
         }
-        if (chance(70)) {
-            lancarHadouken(80, false)
+        if (sorteio < 0.5 && sorteio >= 0.25) {
+            lancarHadouken(100, true)
+            lancarHadouken(100, true)
+            lancarHadouken(100, true)
+            lancarHadouken(100, true)
         }
-        if(chance(30)) {
-            lancarHadouken(120, false)
+        if (sorteio < 0.25) {
+            lancarHadouken(130, false)
         }
     }
 
-}, 5000);
+}, 4000);
+
+let contamenu = 0
+function enablemenu() {
+    if (contamenu % 2 == 0) {
+        document.querySelector(".menuWraper").style.display = "block"
+    } else {
+        document.querySelector(".menuWraper").style.display = "none"
+    }
+    contamenu++
+}
